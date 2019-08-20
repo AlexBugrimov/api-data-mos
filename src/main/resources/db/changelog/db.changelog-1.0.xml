@@ -5,13 +5,18 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet author="BugrimovAlex" id="changelog-1">
-        <createTable tableName="Apps">
+        <createTable tableName="app">
             <column name="app_id" type="INT">
                 <constraints nullable="false" primaryKey="true" unique="true"/>
             </column>
             <column name="caption" type="VARCHAR(128)"/>
             <column name="description" type="TEXT"/>
-            <column name="category_id" type="INT"/>
+            <column name="category_id" type="INT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_app_category"
+                             referencedTableName="category"
+                             referencedColumnNames="category_id"/>
+            </column>
             <column name="publish_date" type="DATE"/>
             <column name="developer" type="VARCHAR(128)"/>
         </createTable>
