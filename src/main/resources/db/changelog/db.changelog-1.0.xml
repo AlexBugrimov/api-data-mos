@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="BugrimovAlex" id="changelog-1">
+        <sql>
+            CREATE TABLE IF NOT EXISTS category
+            (
+                category_id SERIAL NOT NULL
+                CONSTRAINT category_pk PRIMARY KEY,
+                name VARCHAR(128),
+                english_name VARCHAR(128),
+                description TEXT,
+                icon BYTEA,
+                english_description TEXT
+            );
+
+            ALTER TABLE category owner to postgres;
+
+            CREATE TABLE IF NOT EXISTS app
+            (
+                app_id SERIAL NOT NULL
+                CONSTRAINT app_pk PRIMARY KEY,
+                caption VARCHAR(128),
+                description TEXT,
+                category_id SERIAL NOT NULL
+                CONSTRAINT app_category_category_id_fk
+                REFERENCES category,
+                publish_date DATE,
+                developer VARCHAR(128)
+            );
+
+            ALTER TABLE app owner to postgres;
+
+            CREATE UNIQUE INDEX IF NOT EXISTS app_app_id_uindex
+            ON app (app_id);
+
+            CREATE UNIQUE INDEX IF NOT EXISTS category_category_id_uindex
+            ON category (category_id);
+
+            CREATE TABLE IF NOT EXISTS department
+            (
+                department_id SERIAL NOT NULL
+                CONSTRAINT department_pk PRIMARY KEY,
+                name VARCHAR(256),
+                description TEXT,
+                website_url VARCHAR(128),
+                short_name VARCHAR(32),
+                english_name VARCHAR(128),
+                english_description TEXT,
+                inn VARCHAR(20)
+            );
+
+            ALTER TABLE department owner to postgres;
+
+            CREATE TABLE IF NOT EXISTS data_set
+            (
+                data_set_id SERIAL NOT NULL
+                CONSTRAINT data_set_pk PRIMARY KEY,
+                version_number NUMERIC,
+                release_number NUMERIC,
+                caption VARCHAR(128),
+                category_id SERIAL NOT NULL
+                CONSTRAINT data_set_category_category_id_fk
+                REFERENCES category,
+                department_id SERIAL NOT NULL
+                CONSTRAINT data_set_department_department_id_fk
+                REFERENCES department,
+                publish_date DATE,
+                full_description TEXT,
+                keywords TEXT,
+                contains_geodata BOOLEAN,
+                contains_acc_env_data BOOLEAN,
+                is_foreign BOOLEAN,
+                is_seasonal BOOLEAN,
+                season VARCHAR(8),
+                is_archive BOOLEAN,
+                is_new BOOLEAN,
+                last_update_date DATE,
+                sef_url VARCHAR(128),
+                identification_number VARCHAR(128)
+            );
+
+            ALTER TABLE data_set owner to postgres;
+
+            CREATE UNIQUE INDEX IF NOT EXISTS data_set_data_set_id_uindex
+            ON data_set (data_set_id);
+
+            CREATE UNIQUE INDEX IF NOT EXISTS department_department_id_uindex
+            ON department (department_id);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
