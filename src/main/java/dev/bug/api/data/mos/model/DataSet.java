@@ -28,9 +28,9 @@ public class DataSet {
 
     private String caption;
 
-    private long categoryId;
+    private Long categoryId;
 
-    private long departmentId;
+    private Long departmentId;
 
     private LocalDate publishDate;
 
