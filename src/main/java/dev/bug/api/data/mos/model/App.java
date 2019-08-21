@@ -2,39 +2,31 @@ package dev.bug.api.data.mos.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Size;
-import java.util.Set;
+import java.time.LocalDate;
 
 @Data
 @Entity
 @NoArgsConstructor
 @Accessors(chain = true)
-public class Category {
+public class App {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    @Size(min = 2, max = 50)
-    private String name;
-
-    private String englishName;
+    private String caption;
 
     private String description;
 
-    private String englishDescription;
+    private Long categoryId;
 
-    private Byte[] icon;
+    private LocalDate publishDate;
 
-    private Set<DataSet> dataSets;
-
-    private Set<Integer> services;
+    private String developer;
 }
