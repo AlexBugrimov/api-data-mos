@@ -1,20 +1,19 @@
 package dev.bug.api.data.mos.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"apps", "dataSets"})
 @Accessors(chain = true)
 public class Category {
 
@@ -34,7 +33,9 @@ public class Category {
 
     private Byte[] icon;
 
-    private Set<DataSet> dataSets;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private Set<App> apps;
 
-    private Set<Integer> services;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private Set<DataSet> dataSets;
 }

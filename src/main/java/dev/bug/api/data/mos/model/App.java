@@ -4,10 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
@@ -24,7 +21,9 @@ public class App {
 
     private String description;
 
-    private Long categoryId;
+    @ManyToOne
+    @JoinColumn
+    private Category category;
 
     private LocalDate publishDate;
 

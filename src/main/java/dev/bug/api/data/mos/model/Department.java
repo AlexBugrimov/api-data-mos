@@ -1,17 +1,17 @@
 package dev.bug.api.data.mos.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "dataSets")
 @Accessors(chain = true)
 public class Department {
 
@@ -32,4 +32,7 @@ public class Department {
     private String englishDescription;
 
     private String inn;
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private Set<DataSet> dataSets;
 }
