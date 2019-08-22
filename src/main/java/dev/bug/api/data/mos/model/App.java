@@ -1,7 +1,7 @@
 package dev.bug.api.data.mos.model;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,9 +10,13 @@ import java.time.LocalDate;
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@Builder
 @Table(name = "app")
-public class App extends BaseEntity {
+public class App {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long appId;
 
     @Column(name = "caption")
     private String caption;
@@ -20,8 +24,8 @@ public class App extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Column(name = "publish_date")

@@ -1,18 +1,25 @@
 package dev.bug.api.data.mos.model;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+
 @Table(name = "department")
-public class Department extends BaseEntity {
+public class Department {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long departmentId;
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private Set<DataSet> dataSets = new HashSet<>();
 
     @Column(name = "name")
     private String name;
@@ -35,6 +42,20 @@ public class Department extends BaseEntity {
     @Column(name = "inn")
     private String inn;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private Set<DataSet> dataSets;
+    @Builder
+    public Department(String name,
+                      String description,
+                      String websiteUrl,
+                      String shortName,
+                      String englishName,
+                      String englishDescription,
+                      String inn) {
+        this.name = name;
+        this.description = description;
+        this.websiteUrl = websiteUrl;
+        this.shortName = shortName;
+        this.englishName = englishName;
+        this.englishDescription = englishDescription;
+        this.inn = inn;
+    }
 }

@@ -1,20 +1,26 @@
 package dev.bug.api.data.mos.model;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "category")
-public class Category extends BaseEntity {
+public class Category {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long categoryId;
+    @Column(name = "icon")
+    private Byte[] icon = new Byte[0];
 
     @NonNull
     @Size(min = 2, max = 50)
@@ -29,13 +35,19 @@ public class Category extends BaseEntity {
 
     @Column(name = "english_description")
     private String englishDescription;
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    private Set<App> apps = new HashSet<>();
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    private Set<DataSet> dataSets = new HashSet<>();
 
-    @Column(name = "icon")
-    private Byte[] icon;
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private Set<App> apps;
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private Set<DataSet> dataSets;
+    @Builder
+    public Category(@NonNull @Size(min = 2, max = 50) String name,
+                    String englishName,
+                    String description,
+                    String englishDescription) {
+        this.name = name;
+        this.englishName = englishName;
+        this.description = description;
+        this.englishDescription = englishDescription;
+    }
 }
