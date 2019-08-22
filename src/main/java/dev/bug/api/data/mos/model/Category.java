@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -13,24 +12,25 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"apps", "dataSets"})
-@Accessors(chain = true)
-public class Category {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "category")
+public class Category extends BaseEntity {
 
     @NonNull
     @Size(min = 2, max = 50)
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "english_name")
     private String englishName;
 
+    @Column(name = "description")
     private String description;
 
+    @Column(name = "english_description")
     private String englishDescription;
 
+    @Column(name = "icon")
     private Byte[] icon;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
