@@ -46,7 +46,7 @@ public class DataSet extends BaseEntity {
     @Column(name = "contains_acc_env_data")
     private boolean containsAccEnvData;
 
-    @Column(name = "contains_acc_env_data")
+    @Column(name = "is_foreign")
     private boolean isForeign;
 
     @Column(name = "is_seasonal")
