@@ -11,13 +11,13 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-
 @Table(name = "department")
 public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long departmentId;
+
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private Set<DataSet> dataSets = new HashSet<>();
 
@@ -43,13 +43,13 @@ public class Department {
     private String inn;
 
     @Builder
-    public Department(String name,
-                      String description,
-                      String websiteUrl,
-                      String shortName,
-                      String englishName,
-                      String englishDescription,
-                      String inn) {
+    public Department(final String name,
+                      final String description,
+                      final String websiteUrl,
+                      final String shortName,
+                      final String englishName,
+                      final String englishDescription,
+                      final String inn) {
         this.name = name;
         this.description = description;
         this.websiteUrl = websiteUrl;

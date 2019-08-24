@@ -19,6 +19,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
+
     @Column(name = "icon")
     private Byte[] icon = new Byte[0];
 
@@ -35,16 +36,18 @@ public class Category {
 
     @Column(name = "english_description")
     private String englishDescription;
+
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private Set<App> apps = new HashSet<>();
+
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private Set<DataSet> dataSets = new HashSet<>();
 
     @Builder
-    public Category(@NonNull @Size(min = 2, max = 50) String name,
-                    String englishName,
-                    String description,
-                    String englishDescription) {
+    public Category(@NonNull @Size(min = 2, max = 50) final String name,
+                    final String englishName,
+                    final String description,
+                    final String englishDescription) {
         this.name = name;
         this.englishName = englishName;
         this.description = description;
