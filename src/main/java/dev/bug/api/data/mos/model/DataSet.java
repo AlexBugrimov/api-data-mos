@@ -1,6 +1,5 @@
 package dev.bug.api.data.mos.model;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,6 @@ import java.time.LocalDate;
 @Data
 @Entity
 @NoArgsConstructor
-@Builder
 @Table(name = "data_set")
 public class DataSet {
 
