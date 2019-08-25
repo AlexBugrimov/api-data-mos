@@ -4,13 +4,13 @@ import dev.bug.api.data.mos.exceptions.AppNotExistsException;
 import dev.bug.api.data.mos.model.App;
 import dev.bug.api.data.mos.model.Category;
 import dev.bug.api.data.mos.repositories.CategoryRepository;
-import org.hibernate.Hibernate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,8 +23,10 @@ public class AppServiceRepositoryTest {
 
     @Autowired
     CategoryRepository categoryRepository;
+
     @Autowired
     private AppService appService;
+
     private App app;
 
     @Before
@@ -78,10 +80,11 @@ public class AppServiceRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void updateApp() {
         final App savedApp = appService.save(app);
         final Long appId = savedApp.getAppId();
-        final App updatedApp = App
+        final App expectedApp = App
                 .builder()
                 .category(savedApp.getCategory())
                 .description("Новое описание приложения")
@@ -89,9 +92,8 @@ public class AppServiceRepositoryTest {
                 .publishDate(LocalDate.now())
                 .caption("Новый заголовок")
                 .build();
-        final App expectedApp = appService.update(appId, updatedApp);
-        Hibernate.initialize(expectedApp.getCategory());
-        assertThat(updatedApp)
+        final App actualApp = appService.update(appId, expectedApp);
+        assertThat(actualApp)
                 .isEqualToIgnoringGivenFields(expectedApp, "appId");
     }
 }
