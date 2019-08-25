@@ -37,10 +37,10 @@ public class Category {
     @Column(name = "english_description")
     private String englishDescription;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private Set<App> apps = new HashSet<>();
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private Set<DataSet> dataSets = new HashSet<>();
 
     @Builder
