@@ -6,7 +6,6 @@ import dev.bug.api.data.mos.model.App;
 import dev.bug.api.data.mos.repositories.AppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,14 +38,17 @@ public class AppServiceRepository implements AppService {
     }
 
     @Override
-    @Transactional
-    public App update(Long id, App updatingForApp) {
-        final App newApp = getExistingApp(id);
-        newApp.setCaption(updatingForApp.getCaption());
-        newApp.setCategory(updatingForApp.getCategory());
-        newApp.setDescription(updatingForApp.getDescription());
-        newApp.setDeveloper(updatingForApp.getDeveloper());
-        newApp.setPublishDate(updatingForApp.getPublishDate());
+    public App update(Long id, App updatedApp) {
+        final App oldApp = getExistingApp(id);
+        final App newApp = App
+                .builder()
+                .appId(oldApp.getAppId())
+                .caption(updatedApp.getCaption())
+                .description(updatedApp.getDescription())
+                .developer(updatedApp.getDeveloper())
+                .publishDate(updatedApp.getPublishDate())
+                .category(updatedApp.getCategory())
+                .build();
         return appRepository.save(newApp);
     }
 
