@@ -10,6 +10,4 @@ import java.util.List;
 public interface AppRepository extends CrudRepository<App, Long> {
 
     List<App> findAll();
-
-    App findByAppId(Long id);
 }
