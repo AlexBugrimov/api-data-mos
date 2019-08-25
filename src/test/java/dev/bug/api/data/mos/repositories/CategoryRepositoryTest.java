@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
@@ -38,8 +40,10 @@ public class CategoryRepositoryTest {
     @Test
     public void isSavedCategoriesInRepository() {
         final Category savedInDb = entityManager.persist(category);
-        final Category getFromBd = categoryRepository.findByCategoryId(savedInDb.getCategoryId());
-        assertThat(getFromBd)
+        final Optional<Category> getFromBd = categoryRepository.findById(savedInDb.getCategoryId());
+        assertThat(getFromBd.isPresent())
+                .isTrue();
+        assertThat(getFromBd.get())
                 .isEqualTo(savedInDb);
     }
 
@@ -55,7 +59,7 @@ public class CategoryRepositoryTest {
         entityManager.persistAndFlush(twoCategory);
         final long countCategory = categoryRepository.count();
         assertThat(countCategory)
-                .isEqualTo(2);
+                .isGreaterThan(1L);
     }
 
     @Test
@@ -64,12 +68,5 @@ public class CategoryRepositoryTest {
         final Iterable<Category> categories = categoryRepository.findAll();
         assertThat(categories)
                 .isNotEmpty();
-    }
-
-    @Test
-    public void isEmptyDbCategories() {
-        final Iterable<Category> categories = categoryRepository.findAll();
-        assertThat(categories)
-                .isEmpty();
     }
 }
