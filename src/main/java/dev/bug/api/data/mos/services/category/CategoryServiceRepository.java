@@ -4,6 +4,7 @@ import dev.bug.api.data.mos.exceptions.CategoryAlreadyExistsException;
 import dev.bug.api.data.mos.exceptions.CategoryNotExistsException;
 import dev.bug.api.data.mos.model.Category;
 import dev.bug.api.data.mos.repositories.CategoryRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,19 +40,9 @@ public class CategoryServiceRepository implements CategoryService {
     }
 
     @Override
-    public Category update(Long id, Category updatedCategory) {
+    public Category update(Long id, Category newCategory) {
         final Category oldCategory = getExistingCategory(id);
-        final Category newCategory = Category
-                .builder()
-                .categoryId(oldCategory.getCategoryId())
-                .name(updatedCategory.getName())
-                .englishName(updatedCategory.getEnglishName())
-                .description(updatedCategory.getDescription())
-                .englishDescription(updatedCategory.getEnglishDescription())
-                .icon(updatedCategory.getIcon())
-                .apps(updatedCategory.getApps())
-                .dataSets(updatedCategory.getDataSets())
-                .build();
+        BeanUtils.copyProperties(newCategory, oldCategory, "categoryId");
         return categoryRepository.save(newCategory);
     }
 

@@ -4,6 +4,7 @@ import dev.bug.api.data.mos.exceptions.DataSetAlreadyExistsException;
 import dev.bug.api.data.mos.exceptions.DataSetNotExistsException;
 import dev.bug.api.data.mos.model.DataSet;
 import dev.bug.api.data.mos.repositories.DataSetRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,30 +40,9 @@ public class DataSetServiceRepository implements DataSetService {
     }
 
     @Override
-    public DataSet update(Long id, DataSet dataSet) {
+    public DataSet update(Long id, DataSet newDataSet) {
         final DataSet oldDataSet = getExistingDataSet(id);
-        final DataSet newDataSet = DataSet
-                .builder()
-                .dataSetId(oldDataSet.getDataSetId())
-                .caption(dataSet.getCaption())
-                .category(dataSet.getCategory())
-                .containsAccEnvData(dataSet.isContainsAccEnvData())
-                .containsGeoData(dataSet.isContainsGeoData())
-                .department(dataSet.getDepartment())
-                .fullDescription(dataSet.getFullDescription())
-                .identificationNumber(dataSet.getIdentificationNumber())
-                .isArchive(dataSet.isArchive())
-                .isForeign(dataSet.isForeign())
-                .isNew(dataSet.isNew())
-                .isSeasonal(dataSet.isSeasonal())
-                .keywords(dataSet.getKeywords())
-                .lastUpdateDate(dataSet.getLastUpdateDate())
-                .publishDate(dataSet.getPublishDate())
-                .releaseNumber(dataSet.getReleaseNumber())
-                .season(dataSet.getSeason())
-                .sefUrl(dataSet.getSefUrl())
-                .versionNumber(dataSet.getVersionNumber())
-                .build();
+        BeanUtils.copyProperties(newDataSet, oldDataSet, "dataSetId");
         return dataSetRepository.save(newDataSet);
     }
 

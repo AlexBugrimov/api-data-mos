@@ -4,6 +4,7 @@ import dev.bug.api.data.mos.exceptions.AppAlreadyExistsException;
 import dev.bug.api.data.mos.exceptions.AppNotExistsException;
 import dev.bug.api.data.mos.model.App;
 import dev.bug.api.data.mos.repositories.AppRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,17 +39,9 @@ public class AppServiceRepository implements AppService {
     }
 
     @Override
-    public App update(Long id, App updatedApp) {
+    public App update(Long id, App newApp) {
         final App oldApp = getExistingApp(id);
-        final App newApp = App
-                .builder()
-                .appId(oldApp.getAppId())
-                .caption(updatedApp.getCaption())
-                .description(updatedApp.getDescription())
-                .developer(updatedApp.getDeveloper())
-                .publishDate(updatedApp.getPublishDate())
-                .category(updatedApp.getCategory())
-                .build();
+        BeanUtils.copyProperties(newApp, oldApp, "appId");
         return appRepository.save(newApp);
     }
 
