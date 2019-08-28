@@ -58,6 +58,10 @@
             <artifactId>guava</artifactId>
             <version>28.0-jre</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
