@@ -16,7 +16,3 @@ spring:
       hibernate:
         jdbc.lob.non_contextual_creation: true
     open-in-view: false
-
-api:
-  url: apidata.mos.ru/v1
-  key: e58cf13b2013d639e62f0201ee4baee6
