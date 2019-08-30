@@ -2,4 +2,4 @@ scheme: https
 host: apidata.mos.ru/v1
 
 # Секретный ключ
-confidential-key: e58cf13b2013d639e62f0201ee4baee6
+api_key: e58cf13b2013d639e62f0201ee4baee6
