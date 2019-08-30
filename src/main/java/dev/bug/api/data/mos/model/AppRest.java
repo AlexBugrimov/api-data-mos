@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class AppItem {
+public class AppRest {
 
     @JsonProperty("Id")
     private String id;
