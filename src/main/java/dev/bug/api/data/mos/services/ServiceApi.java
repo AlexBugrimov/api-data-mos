@@ -1,4 +1,4 @@
-package dev.bug.api.data.mos.services.app;
+package dev.bug.api.data.mos.services;
 
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Component
 @PropertySource({"classpath:api.yml"})
-public class ClientApiService {
+public class ServiceApi {
 
     @Value("${scheme}")
     private String scheme;
@@ -31,7 +31,7 @@ public class ClientApiService {
     private RestTemplate template;
 
     @Autowired
-    public ClientApiService(RestTemplate template) {
+    public ServiceApi(RestTemplate template) {
         this.template = template;
     }
 

@@ -1,6 +1,7 @@
 package dev.bug.api.data.mos.services.app;
 
 import dev.bug.api.data.mos.model.AppItem;
+import dev.bug.api.data.mos.services.ServiceApi;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,14 @@ import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AppClientApiServiceTest {
+public class AppServiceApiTest {
 
     @Autowired
-    ClientApiService clientApiService;
+    ServiceApi serviceApi;
 
     @Test
     public void getAppItems() {
-        final Set<AppItem> items = clientApiService.getItems(AppItem[].class, "apps");
+        final Set<AppItem> items = serviceApi.getItems(AppItem[].class, "apps");
         System.out.println(items);
     }
 }
