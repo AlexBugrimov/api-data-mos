@@ -1,6 +1,12 @@
 package dev.bug.api.data.mos.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import dev.bug.api.data.mos.model.AppRest;
+import dev.bug.api.data.mos.model.CategoryRest;
+import dev.bug.api.data.mos.model.DepartmentRest;
+import dev.bug.api.data.mos.services.app.AppService;
+import dev.bug.api.data.mos.services.category.CategoryService;
+import dev.bug.api.data.mos.services.dataSet.DataSetService;
+import dev.bug.api.data.mos.services.department.DepartmentService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpMethod;
@@ -18,17 +24,29 @@ public class ServiceApi {
     @Value("${host}")
     private String host;
 
-    private final RestTemplate template;
     @Value("${api_key}")
     private String apiKey;
 
-    @Autowired
-    public ServiceApi(RestTemplate template) {
-        this.template = template;
+    private final RestTemplate restTemplate;
+    private final AppService appService;
+    private final CategoryService categoryService;
+    private final DataSetService dataSetService;
+    private final DepartmentService departmentService;
+
+    public ServiceApi(final RestTemplate restTemplate,
+                      final AppService appService,
+                      final CategoryService categoryService,
+                      final DataSetService dataSetService,
+                      final DepartmentService departmentService) {
+        this.restTemplate = restTemplate;
+        this.appService = appService;
+        this.categoryService = categoryService;
+        this.dataSetService = dataSetService;
+        this.departmentService = departmentService;
     }
 
-    public <T> T[] getItems(final Class<T[]> type, final Resource resource) {
-        return template.exchange(UriComponentsBuilder
+    private <T> T[] getItems(final Class<T[]> type, final Resource resource) {
+        return restTemplate.exchange(UriComponentsBuilder
                         .newInstance()
                         .scheme(scheme)
                         .host(host)
@@ -36,5 +54,12 @@ public class ServiceApi {
                         .queryParam("api_key", apiKey)
                         .build().toUriString(),
                 HttpMethod.GET, null, type).getBody();
+    }
+
+    public void toUpdateData() {
+        final CategoryRest[] categoryRests = getItems(CategoryRest[].class, Resource.CATEGORIES);
+        final AppRest[] appRests = getItems(AppRest[].class, Resource.APPS);
+        final DepartmentRest[] departmentRests = getItems(DepartmentRest[].class, Resource.DEPARTMENTS);
+        System.out.println();
     }
 }
