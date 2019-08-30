@@ -1,6 +1,7 @@
 package dev.bug.api.data.mos.services.app;
 
 import dev.bug.api.data.mos.model.AppRest;
+import dev.bug.api.data.mos.services.Resource;
 import dev.bug.api.data.mos.services.ServiceApi;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,7 @@ public class AppServiceApiTest {
 
     @Test
     public void getAppItems() {
-        final AppRest[] items = serviceApi.getItems(AppRest[].class, "apps");
+        final AppRest[] items = serviceApi.getItems(AppRest[].class, Resource.APPS);
         System.out.println(Arrays.toString(items));
     }
 }

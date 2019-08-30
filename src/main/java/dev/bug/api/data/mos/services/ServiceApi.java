@@ -30,11 +30,12 @@ public class ServiceApi {
         this.template = template;
     }
 
-    public <T> T[] getItems(Class<T[]> type, String path) {
-        final UriComponents uri = UriComponentsBuilder.newInstance()
+    public <T> T[] getItems(Class<T[]> type, Resource resource) {
+        final UriComponents uri = UriComponentsBuilder
+                .newInstance()
                 .scheme(scheme)
                 .host(host)
-                .path(path)
+                .path(resource.getPath())
                 .queryParam("api_key", confidentialKey)
                 .build();
 
